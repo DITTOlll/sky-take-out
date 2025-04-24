@@ -49,6 +49,7 @@ public class CategoryController {
         log.info("分页查询：{}", categoryPageQueryDTO);
         PageResult pageResult = categoryService.pageQuery(categoryPageQueryDTO);
         return Result.success(pageResult);
+
     }
 
     /**
