@@ -34,4 +34,10 @@ public interface SetmealMapper {
      */
     Page<SetmealVO> page(SetmealPageQueryDTO setmealPageQueryDTO);
 
+    /**
+     * 新增套餐
+     * @param setmeal
+     */
+    @AutoFill(value = OperationType.INSERT)
+    void insert(Setmeal setmeal);
 }
