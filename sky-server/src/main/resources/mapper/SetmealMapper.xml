@@ -42,9 +42,9 @@
     </update>
     <select id="page" resultType="com.sky.vo.SetmealVO">
         select
-            s.*,c.name as categoryName
+            s.*,c.name categoryName
         from setmeal s left join category c
-        on s.id=c.id
+        on s.category_id=c.id
         <where>
             <if test="name != null">
                 and s.name like concat('%',#{name},'%')
