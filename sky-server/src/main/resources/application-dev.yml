@@ -11,3 +11,8 @@ sky:
     access-key-id: ${OSS_ACCESS_KEY_ID}
     access-key-secret: ${OSS_ACCESS_KEY_SECRET}
     bucket-name:  java-aiil
+  redis:
+    host: localhost
+    port: 6379
+    password: 24104401
+    database: 10
