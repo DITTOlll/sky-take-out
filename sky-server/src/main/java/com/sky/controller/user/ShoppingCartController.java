@@ -49,4 +49,11 @@ public class ShoppingCartController {
         shoppingCartService.cleanShoppingCart();
         return Result.success();
     }
+
+    @PostMapping("/sub")
+    private Result sub(@RequestBody ShoppingCartDTO shoppingCartDTO){
+        log.info("删除商品,信息为{}",shoppingCartDTO);
+        shoppingCartService.subShoppingCart(shoppingCartDTO);
+        return Result.success();
+    }
 }
