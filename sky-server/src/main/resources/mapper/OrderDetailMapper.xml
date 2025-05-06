@@ -4,7 +4,7 @@
 <mapper namespace="com.sky.mapper.OrderDetailMapper">
 
 
-    <insert id="insertBatch" >
+    <insert id="insertBatch" parameterType="list">
         insert into order_detail
         (name, order_id, dish_id, setmeal_id, dish_flavor, number, amount, image)
         values

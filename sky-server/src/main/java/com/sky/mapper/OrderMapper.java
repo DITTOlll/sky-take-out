@@ -11,7 +11,11 @@ import java.time.LocalDateTime;
 
 @Mapper
 public interface OrderMapper {
-    void insert(Orders orders);
+    /**
+     * 插入订单数据
+     * @param order
+     */
+    void insert(Orders order);
 
     /**
      * 根据订单号查询订单
@@ -48,4 +52,11 @@ public interface OrderMapper {
      */
     @Select("select * from orders where id=#{id}")
     Orders getById(Long id);
+
+    /**
+     * 根据状态统计订单数量
+     * @param status
+     */
+    @Select("select count(id) from orders where status = #{status}")
+    Integer countStatus(Integer status);
 }

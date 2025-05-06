@@ -6,6 +6,7 @@ import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.OrderService;
 import com.sky.vo.OrderPaymentVO;
+import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
 import io.swagger.annotations.ApiOperation;
@@ -28,12 +29,20 @@ public class OrderController {
      */
     @Autowired
     private OrderService orderService;
+    /**
+     * 用户下单
+     *
+     * @param ordersSubmitDTO
+     * @return
+     */
     @PostMapping("/submit")
-    public Result<OrderSubmitVO> submit(@RequestBody OrdersSubmitDTO ordersSubmitDTO){
-        log.info("用户下单{}",ordersSubmitDTO);
-        OrderSubmitVO orderSubmitVO=orderService.submitOrder(ordersSubmitDTO);
+    @ApiOperation("用户下单")
+    public Result<OrderSubmitVO> submit(@RequestBody OrdersSubmitDTO ordersSubmitDTO) {
+        log.info("用户下单：{}", ordersSubmitDTO);
+        OrderSubmitVO orderSubmitVO = orderService.submitOrder(ordersSubmitDTO);
         return Result.success(orderSubmitVO);
     }
+
 
     /**
      * 订单支付
@@ -104,6 +113,7 @@ public class OrderController {
         orderService.repetition(id);
         return Result.success();
     }
+
 
 
 }
