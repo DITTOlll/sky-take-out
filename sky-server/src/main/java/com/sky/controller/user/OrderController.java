@@ -2,11 +2,13 @@ package com.sky.controller.user;
 
 import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersSubmitDTO;
+import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.OrderService;
 import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderSubmitVO;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -46,4 +48,24 @@ public class OrderController {
         log.info("生成预支付交易单：{}", orderPaymentVO);
         return Result.success(orderPaymentVO);
     }
+
+    /**
+     * 历史订单查询
+     * @param page
+     * @param pagesize
+     * @param status 订单状态 1待付款 2待接单 3已接单 4派送中 5已完成 6已取消
+     * @return
+     */
+    @GetMapping("/historyOrders")
+    public Result<PageResult> page(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer pagesize,
+            @RequestParam(required = false) Integer status) {
+
+        PageResult pageResult = orderService.pageQuery4User(page, pagesize, status);
+        return Result.success(pageResult);
+    }
+
+
+
 }
