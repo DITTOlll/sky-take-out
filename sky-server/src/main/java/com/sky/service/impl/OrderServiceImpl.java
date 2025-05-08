@@ -21,6 +21,7 @@ import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
+import com.sky.websocket.WebSocketServer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeanUtils;
@@ -41,6 +42,9 @@ import java.util.stream.Collectors;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+
+    @Autowired
+    private WebSocketServer webSocketServer;
     @Autowired
     private OrderMapper orderMapper;
     @Autowired
@@ -176,6 +180,18 @@ public class OrderServiceImpl implements OrderService {
         log.info("调用updateStatus，用于替换微信支付更新数据库状态的问题");
         orderMapper.updateStatus(OrderStatus, OrderPaidStatus, check_out_time, orderNumber);
 
+        // 查询订单信息用于获取订单ID
+        Orders ordersDB = orderMapper.getByNumber(orderNumber); // 你需要有这个方法
+
+        // 推送 WebSocket 消息
+        Map<String, Object> map = new HashMap<>();
+        map.put("type", 1); // 1 表示来单提醒
+        map.put("orderId", ordersDB.getId());
+        map.put("content", "订单号:" + orderNumber);
+
+        String json = JSON.toJSONString(map);
+        webSocketServer.sendToAllClient(json);
+
         return vo;
     }
 
@@ -199,6 +215,9 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         orderMapper.update(orders);
+
+
+
     }
 
     /**
